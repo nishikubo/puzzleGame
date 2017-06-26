@@ -61,6 +61,11 @@ phina.define('MainScene', {
         // Gridを利用して配置
         piece.x = grid.span(spanX) + PIECE_OFFSET;
         piece.y = grid.span(spanY) + PIECE_OFFSET;
+
+        // 正解の位置を記憶させておく
+        piece.correctX = piece.x;
+        piece.correctY = piece.y;
+
         // タッチを有効にする
         piece.setInteractive(true);
         // タッチされた時の処理
@@ -139,6 +144,7 @@ phina.define('MainScene', {
                      //if (self.shuffleButton.isPushed) self.checkPiecePosition();
                      //シャッフルボタンを押したあとならクリア判定を行う
                      if (shuffle_bool == true) self.checkPiecePosition();
+                     //if (clear_move >= 3) self.checkPiecePosition();
                    });
     }
   },
@@ -147,6 +153,12 @@ phina.define('MainScene', {
 checkPiecePosition: function() {
   //シーン移動テスト
   //if(clear_move == 5) document.location.href="result.html?" + escape(clear_move);
+  //シーン移動テストキーボードのキーのどれかが押されたらリザルトへ移動する
+  //URLに移動させた回数を付けてリザルトで使えるようにする
+  document.onkeydown = function()
+  {
+    document.location.href="result.html?" + escape(clear_move);
+  }
 
   // 正しくない位置のピースがあるかチェックする
   var result = this.pieceGroup.children.some(function(piece) {
@@ -157,6 +169,8 @@ checkPiecePosition: function() {
   if (!result) {
     //document.location.href="result.html";
     document.location.href="result.html?" + escape(clear_move);
+    //if(clear_move == 5) document.location.href="result.html?" + escape(clear_move);
+
     /*this.exit({
       score: score,
       message: '15 Puzzle Clear!'
