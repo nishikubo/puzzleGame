@@ -1,13 +1,20 @@
 <html>
 <head>
-<title>���U���g</title>
+<title>リザルト</title>
 </head>
 <body>
 
-<h1>���U���g</h1>
+<h1>リザルト</h1>
+<script type="text/javascript">
+//?以降の文字を取得する
+var data = location.search.substring(1, location.search.length);
+  //エスケープされた文字をアンエスケープする
+data = unescape(data);
 
+document.write("クリアまでにかかった回数は " + data + " 回です。");
+</script>
 <form>
-<input type="button" value="�^�C�g���֖߂�" onclick="location.href='title.html'">
+<input type="button" value="タイトルへ" onclick="location.href='title.html'">
 </form>
 </body>
 </html>
