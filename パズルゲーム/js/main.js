@@ -31,6 +31,12 @@ var GRID_SIZE = SCREEN_WIDTH / 4;  // グリッドのサイズ
 var PIECE_SIZE = GRID_SIZE * 0.95; // ピースの大きさ
 var PIECE_NUM_XY = 4;              // 縦横のピース数
 var PIECE_OFFSET = GRID_SIZE / 2;  // オフセット値
+
+//クリアまでに移動させた回数を格納する変数
+var clear_move = 0;
+//シャッフルボタンを押したかの判定
+var shuffle_bool = false;
+
 // メインシーン
 phina.define('MainScene', {
   superClass: 'DisplayScene',
@@ -68,12 +74,14 @@ phina.define('MainScene', {
     });
     // シャッフルボタン
     var shuffleButton = Button({
-      text: 'SHUFFLE',
+      text: 'シャッフル',
     }).addChildTo(this).setPosition(this.gridX.center(), this.gridY.span(13));
     // ボタンプッシュ時処理
     shuffleButton.onpush = function() {
       // ピースをシャッフル
       (100).times(function() {
+        //シャッフルボタンを押した判定をtrueに
+        shuffle_bool = true;
         self.shufflePieces();
       });
     };
@@ -95,6 +103,8 @@ phina.define('MainScene', {
   },
   // ピースの移動処理
   movePiece: function(piece, isInstantly) {
+
+
     // 空白ピースを得る
     var blank = this.getBlankPiece();
     // 即入れ替え
@@ -122,14 +132,22 @@ phina.define('MainScene', {
                      // 空白ピースをタッチされたピースの位置へ
                      blank.setPosition(touchX, touchY);
 
+                     //移動回数を増加
+                     clear_move++;
+
                      // クリアチェック
-                     if (self.shuffleButton.isPushed) self.checkPiecePosition();
+                     //if (self.shuffleButton.isPushed) self.checkPiecePosition();
+                     //シャッフルボタンを押したあとならクリア判定を行う
+                     if (shuffle_bool == true) self.checkPiecePosition();
                    });
     }
   },
 
   // クリア判定
 checkPiecePosition: function() {
+  //シーン移動テスト
+  //if(clear_move == 5) document.location.href="result.html?" + escape(clear_move);
+
   // 正しくない位置のピースがあるかチェックする
   var result = this.pieceGroup.children.some(function(piece) {
     if (piece.x != piece.correctX || piece.y != piece.correctY) return true;
@@ -137,6 +155,8 @@ checkPiecePosition: function() {
   // 全て正しい位置ならクリア画面へ
   //var score = this.step;
   if (!result) {
+    //document.location.href="result.html";
+    document.location.href="result.html?" + escape(clear_move);
     /*this.exit({
       score: score,
       message: '15 Puzzle Clear!'
