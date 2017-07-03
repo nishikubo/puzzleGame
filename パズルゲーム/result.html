@@ -4,17 +4,28 @@
 </head>
 <body>
 
-<h1>リザルト</h1>
+<script src='http://cdn.rawgit.com/phi-jp/phina.js/v0.2.0/build/phina.js'></script>
+
+<script src='js/result.js'></script>
+
 <script type="text/javascript">
 //?以降の文字を取得する
 var result_data = location.search.substring(1, location.search.length);
   //エスケープされた文字をアンエスケープする
 result_data = unescape(result_data);
 
-document.write("クリアまでにかかった回数は " + result_data + " 回です。");
+
+
+//document.write("<h1>ランキング</h1>");
+//document.write("1位 " + result1 + " 回<br>");
+//document.write("2位 " + result2 + " 回<br>");
+//document.write("3位 " + result3 + " 回<br><br>");
+
+//st.clear();
+//result=st.getItem('useID');
+//console.log(result);
+
+
 </script>
-<form>
-<input type="button" value="タイトルへ" onclick="location.href='title.html'">
-</form>
 </body>
 </html>
